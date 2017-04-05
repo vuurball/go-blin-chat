@@ -5,16 +5,17 @@ new Vue({
         ws: null, // Our websocket
         newMsg: '', // Holds new messages to be sent to the server
         chatContent: '', // A running list of chat messages displayed on the screen
-        email: null, // Email address used for grabbing an avatar
-        username: null, // Our username
-        outlang: "en", // output language
+        email: "olgal@bbinary.com", // Email address used for grabbing an avatar
+        username: "Olga", // Our username
+        outlang: "he", // output language
         origlang: "en", // input language
-        joined: false // True if email and username have been filled in
+        joined: true // True if email and username have been filled in
     },
     created: function() {
         var self = this;
         this.ws = new WebSocket('ws://' + window.location.host + '/ws');
         this.ws.addEventListener('message', function(e) {
+            console.log(e.data)
             var msg = JSON.parse(e.data);
             self.chatContent += '<div class="chip">'
                     + '<img src="' + self.gravatarURL(msg.email) + '">' // Avatar
@@ -34,8 +35,8 @@ new Vue({
                         email: this.email,
                         username: this.username,
                         message: $('<p>').html(this.newMsg).text(), // Strip out html
-                        outlang: this.outlang,
-                        origlang: this.origlang
+                        tl: this.outlang,
+                        sl: this.origlang
                     }
                 ));
                 this.newMsg = ''; // Reset newMsg
